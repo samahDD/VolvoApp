@@ -1,5 +1,6 @@
 package ui.products
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,9 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+
 import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,8 +25,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,43 +36,42 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import coil.compose.AsyncImage
+
 import intent.ProductIntent
 import model.Product
 import viewModel.ProductViewModel
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
 /*
-* Contains the UI for displaying (User interactions)
-* Creates the list of products in the application.
-* This class handle the following:
-* - Display products from ProductState
-* - Handle loading state
-* - Send intents to ViewModel
-* - Render product cards
+* Displays all products
+* and handles product clicks.
 */
 fun ProductListScreen(
-    viewModel: ProductViewModel
+
+    viewModel: ProductViewModel,
+
+    onProductClick: (Int) -> Unit
 ) {
 
+    // Current UI state
     val state = viewModel.state.value
 
-    // Loading the products
+    // Load products once
     LaunchedEffect(Unit) {
 
         viewModel.processIntent(
             ProductIntent.LoadProducts
         )
     }
-
-    //UI customization
     Scaffold(
         containerColor = Color(0xFFF5F5F5),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-
                     containerColor =
                         Color(0xFF1E1E1E)
                 ),
@@ -76,6 +81,7 @@ fun ProductListScreen(
                         contentAlignment =
                             Alignment.Center
                     ) {
+
                         Text(
                             text = "Products Store",
                             color = Color.White,
@@ -90,8 +96,7 @@ fun ProductListScreen(
 
     ) { paddingValues ->
 
-        //Responsible for loading screen
-        if(state.isLoading) {
+        if (state.isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment =
@@ -101,8 +106,8 @@ fun ProductListScreen(
                     color = Color.Black
                 )
             }
+
         } else {
-            // Products list
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -117,7 +122,12 @@ fun ProductListScreen(
                     Arrangement.spacedBy(16.dp)
             ) {
                 items(state.products) { product ->
-                    ProductItem(product)
+                    ProductItem(
+                        product = product,
+                        onClick = {
+                            onProductClick(product.id)
+                        }
+                    )
                 }
             }
         }
@@ -125,23 +135,36 @@ fun ProductListScreen(
 }
 
 @Composable
+/*
+* Product card UI
+*/
 fun ProductItem(
-    product: Product
+
+    product: Product,
+
+    onClick: () -> Unit
 ) {
+
     Card(
-        modifier = Modifier.fillMaxWidth(),
+
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+
+                onClick()
+            },
+
         shape = RoundedCornerShape(20.dp),
+
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
+
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         )
     ) {
-
         Column {
-
-            // Loading images of products
             AsyncImage(
                 model = product.thumbnail,
                 contentDescription =
@@ -151,13 +174,9 @@ fun ProductItem(
                     .height(220.dp),
                 contentScale = ContentScale.Crop
             )
-
-            // Products data
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-
-                // Handle each product title.
                 Text(
                     text = product.title,
                     style =
@@ -168,19 +187,6 @@ fun ProductItem(
                 Spacer(
                     modifier = Modifier.height(8.dp)
                 )
-
-                // Handle the description of products
-                Text(
-                    text = product.description,
-                    style =
-                        MaterialTheme.typography.bodyMedium,
-                    color = Color.DarkGray
-                )
-                Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-
-                // Calling the price of product
                 Text(
                     text = "$${product.price}",
                     color = Color(0xFF2E7D32),
