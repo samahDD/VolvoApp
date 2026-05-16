@@ -37,3 +37,18 @@ The project follows the MVI (Model-View-Intent) architecture.
 4. Repository fetches data using Retrofit  
 5. ProductState updates the UI  
 6. Jetpack Compose automatically recomposes the screen
+
+## Future Improvements
+
+Add product details screen
+Implement Navigation Compose
+Add offline caching using Room Database
+Implement search functionality
+Add product categories and filtering
+Support dark mode
+Improve loading and error handling
+Add pagination for large product lists
+Implement Firebase authentication
+Improve architecture using Clean Architecture principles
+Add dependency injection using Hilt
+Improve UI animations and responsiveness
