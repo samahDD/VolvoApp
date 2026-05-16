@@ -28,22 +28,6 @@ An Android shopping application that is build using Kotlin language and Jetpack 
 
 The project follows the MVI (Model-View-Intent) architecture.
 
-UI → Intent → ViewModel → Repository → API → State → UI
-
----
-
-# Folder Structure
-
-```text
-model/
-repository/
-viewModel/
-state/
-intent/
-ui/
-```
-
----
 
 # How It Works
 
