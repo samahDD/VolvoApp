@@ -10,11 +10,15 @@ package model
 * - Product description
 * - Product image
 * - Product price
+* - Product Brand
+* - product stock
 */
-data class Product (
+data class Product(
     val id: Int,
     val title: String,
     val description: String,
     val thumbnail: String,
-    val price: Double
+    val price: Double,
+    val brand: String,
+    val stock: Int
 )
