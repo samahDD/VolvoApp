@@ -12,6 +12,7 @@ package model
 * - Product price
 * - Product Brand
 * - product stock
+* - Product rating
 */
 data class Product(
     val id: Int,
@@ -20,5 +21,6 @@ data class Product(
     val thumbnail: String,
     val price: Double,
     val brand: String,
-    val stock: Int
+    val stock: Int,
+    val rating: Double
 )
