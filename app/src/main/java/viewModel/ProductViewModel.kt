@@ -21,8 +21,8 @@ class ProductViewModel(
 ) : ViewModel() {
 
     /*
-    * Holds the current UI state
-    * Composes auto updates the UI when state changes.
+    * Holds the current UI state and
+    * Composes auto updates the UI when state changes
     */
     var state = mutableStateOf(
         ProductState()
@@ -39,6 +39,9 @@ class ProductViewModel(
             is ProductIntent.LoadProducts -> {
                 loadProducts()
             }
+            is ProductIntent.SearchProducts -> {
+                searchProducts(intent.query)
+            }
         }
     }
 
@@ -48,21 +51,39 @@ class ProductViewModel(
      */
     private fun loadProducts() {
         viewModelScope.launch {
-            // Loading state
             state.value = ProductState(
                 isLoading = true
             )
             try {
                 val products =
                     repository.getProducts()
-                // Success state
                 state.value = ProductState(
                     products = products
                 )
             } catch (e: Exception) {
-                // Handels any error state using Exception
                 state.value = ProductState(
                     error = e.message ?: "Unknown error"
+                )
+            }
+        }
+    }
+
+    private fun searchProducts(
+
+        query: String
+    ) {
+        viewModelScope.launch {
+            try {
+                val products =
+                    repository.searchProducts(query)
+                state.value = ProductState(
+                    products = products
+                )
+
+            } catch (e: Exception) {
+                state.value = ProductState(
+                    error =
+                        e.message ?: "Search failed"
                 )
             }
         }
