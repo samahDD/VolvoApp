@@ -1,19 +1,27 @@
 package com.example.volvo
 
 import android.os.Bundle
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+
 import androidx.compose.material3.ExperimentalMaterial3Api
+
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+
 import repository.APIService
 import repository.ProductRepository
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 import ui.products.ProductDetailScreen
 import ui.products.ProductListScreen
+
 import viewModel.ProductViewModel
+
 @OptIn(ExperimentalMaterial3Api::class)
 
 class MainActivity : ComponentActivity() {
@@ -22,13 +30,13 @@ class MainActivity : ComponentActivity() {
     ) {
         super.onCreate(savedInstanceState)
         val retrofit = Retrofit.Builder()
-
             .baseUrl(
                 "https://dummyjson.com/"
             )
             .addConverterFactory(
                 GsonConverterFactory.create()
             )
+
             .build()
         val apiService = retrofit.create(
             APIService::class.java
@@ -58,6 +66,7 @@ class MainActivity : ComponentActivity() {
                         }
                     )
                 }
+
                 composable(
                     "details/{productId}"
                 ) { backStackEntry ->
@@ -67,9 +76,11 @@ class MainActivity : ComponentActivity() {
                             ?.toInt()
                     val product =
                         viewModel.state.value.products.find {
+
                             it.id == productId
                         }
                     product?.let {
+
                         ProductDetailScreen(
                             product = it,
                             onBackClick = {
