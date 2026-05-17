@@ -1,10 +1,21 @@
 package intent
 
 /*
- * This file contains user actions
- * The ViewModel listens to these actions,
- * and performs tasks based on them
+ * ProductIntent
+ *
+ * Represents user actions
+ * in the application.
  */
+
 sealed class ProductIntent {
-    object LoadProducts: ProductIntent()
+    /*
+     * Load all products
+     */
+    object LoadProducts : ProductIntent()
+    /*
+     * Search products
+     */
+    data class SearchProducts(
+        val query: String
+    ) : ProductIntent()
 }
