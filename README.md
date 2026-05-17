@@ -175,6 +175,8 @@ Used for screen navigation.
 
 ---
 
-# Author
+# Implemented by 
 
 Samah Diab
+
+# Always remember, Am I testing the code or the code is testing me ????
