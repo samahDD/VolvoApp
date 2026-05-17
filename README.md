@@ -1,20 +1,49 @@
 # A Product Store App
 
-An Android shopping application that is build using Kotlin language and Jetpack Compose. My App is feaches productes from an online API then displays them in a clean and scrollable user interface.
-
-## Features 
-
-1. Fetch products from API
-2. Modern UI with Jetpack Compose
-3.  Product image loading using Coil
-4. Scrollable product list
-5. State management using MVI(Model-View-Intent) architecture
-6. Retrofit networking
-7. Loading and error handling
+A modern Android shopping application built using Kotlin and Jetpack Compose.  
+The app fetches products from an online API and displays them in a clean and interactive user interface.
 
 ---
 
-## Technologies Used
+# Features
+
+## Product List Screen
+- Fetches products from the DummyJSON API
+- Displays product image, title, price, and rating
+- Modern card-based UI using Jetpack Compose
+- Scrollable product list using LazyColumn
+
+## Search Functionality
+- Real-time product search
+- Uses API search endpoint:
+
+```text
+https://dummyjson.com/products/search?q={query}
+```
+
+- Updates products automatically while typing
+
+## Product Details Screen
+- Opens when a product card is clicked
+- Displays:
+  - Product image
+  - Product title
+  - Full description
+  - Product brand
+  - Stock status
+  - Product price
+- Includes back button navigation
+
+## State Management
+- Handles:
+  - Loading state
+  - Success state
+  - Error state
+- UI automatically updates when state changes
+
+---
+
+# Technologies Used
 
 - Kotlin
 - Jetpack Compose
@@ -22,33 +51,130 @@ An Android shopping application that is build using Kotlin language and Jetpack 
 - Coil
 - Coroutines
 - Material 3
+- Navigation Compose
 - MVI Architecture
 
-## Architecture
+---
+
+# Architecture
 
 The project follows the MVI (Model-View-Intent) architecture.
 
+# Project Structure
 
-# How It Works
+```text
+intent/
+model/
+repository/
+state/
+ui/
+viewModel/
+```
 
-1. User opens the app  
-2. ProductIntent triggers product loading  
-3. ViewModel requests data from Repository  
-4. Repository fetches data using Retrofit  
-5. ProductState updates the UI  
-6. Jetpack Compose automatically recomposes the screen
+## Folder Explanation
 
-## Future Improvements
+### model/
+Contains data models used in the application.
 
-Add product details screen
-Implement Navigation Compose
-Add offline caching using Room Database
-Implement search functionality
-Add product categories and filtering
-Support dark mode
-Improve loading and error handling
-Add pagination for large product lists
-Implement Firebase authentication
-Improve architecture using Clean Architecture principles
-Add dependency injection using Hilt
-Improve UI animations and responsiveness
+Classes
+- Product
+- ProductResponse
+
+### repository/
+Handles API communication and data operations.
+
+Classes
+- APIService
+- ProductRepository
+
+### viewModel/
+Contains business logic and state management.
+
+Class
+- ProductViewModel
+
+### state/
+Contains UI state classes.
+
+Class
+- ProductState
+
+### intent/
+Contains user actions/intents.
+
+Class
+- ProductIntent
+
+### ui/
+Contains all Jetpack Compose UI screens.
+
+Classes
+- ProductListScreen
+- ProductDetailScreen
+
+---
+
+# API
+
+This project uses the DummyJSON API.
+
+## Get Products
+
+```text
+https://dummyjson.com/products
+```
+
+## Search Products
+
+```text
+https://dummyjson.com/products/search?q={query}
+```
+
+---
+
+# Libraries
+
+## Retrofit
+Used for API communication.
+
+## Coil
+Used for loading product images from URLs.
+
+## Coroutines
+Used for asynchronous background operations.
+
+## Navigation Compose
+Used for screen navigation.
+
+---
+
+# How the App Works
+
+1. User opens the app
+2. ProductIntent.LoadProducts is triggered
+3. ViewModel requests products from Repository
+4. Repository fetches data from APIService
+5. ProductState updates the UI
+6. Products are displayed on screen
+7. User can search products using the search bar
+8. User can click a product to open details screen
+9. User can navigate back to the product list
+
+---
+
+# Future Improvements
+
+- Add product categories
+- Add filtering options
+- Add dark mode support
+- Add offline caching using Room Database
+- Add authentication system
+- Add pagination
+- Add favorites functionality
+- Improve UI animations
+
+---
+
+# Author
+
+Samah Diab
